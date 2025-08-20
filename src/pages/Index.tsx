@@ -1,7 +1,7 @@
-import ATSChecker from '@/components/ATSChecker';
+import LandingPage from '@/components/LandingPage';
 
 const Index = () => {
-  return <ATSChecker />;
+  return <LandingPage />;
 };
 
 export default Index;
