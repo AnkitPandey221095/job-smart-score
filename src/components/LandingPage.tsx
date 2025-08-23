@@ -84,10 +84,12 @@ const LandingPage = () => {
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
-              <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-border bg-card/50 backdrop-blur-sm">
-                <FileText className="h-5 w-5 mr-2" />
-                Learn More
-              </Button>
+              <Link to="/how-it-works">
+                <Button variant="outline" size="lg" className="px-8 py-6 text-lg border-border bg-card/50 backdrop-blur-sm">
+                  <FileText className="h-5 w-5 mr-2" />
+                  Learn More
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
