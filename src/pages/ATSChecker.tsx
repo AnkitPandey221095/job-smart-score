@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, FileText, Target, Sparkles, ArrowLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { incrementResumeAnalyzed } from '@/lib/resumeStats';
 
 interface ATSResult {
   score: number;
@@ -128,6 +129,10 @@ const ATSChecker = () => {
     try {
       const analysisResult = await calculateATSScore();
       setResult(analysisResult);
+      
+      // Increment the resume analyzed counter
+      incrementResumeAnalyzed(analysisResult.score);
+      
       toast({
         title: "Analysis complete",
         description: `Your ATS score is ${analysisResult.score}%`,

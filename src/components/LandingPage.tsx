@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { getResumeStats } from '@/lib/resumeStats';
 import { 
   Target, 
   CheckCircle, 
@@ -17,10 +18,41 @@ import {
 } from 'lucide-react';
 
 const LandingPage = () => {
+  const [resumeStats, setResumeStats] = useState(getResumeStats());
+
+  useEffect(() => {
+    // Update stats on component mount and when localStorage changes
+    const handleStorageChange = () => {
+      setResumeStats(getResumeStats());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also check for updates periodically in case of same-tab changes
+    const interval = setInterval(handleStorageChange, 1000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
+
   const stats = [
-    { icon: Users, label: 'Resumes Analyzed', value: '10,000+' },
-    { icon: TrendingUp, label: 'Average Score Improvement', value: '35%' },
-    { icon: Award, label: 'Success Rate', value: '92%' },
+    { 
+      icon: Users, 
+      label: 'Resumes Analyzed', 
+      value: resumeStats.resumesAnalyzed.toString()
+    },
+    { 
+      icon: TrendingUp, 
+      label: 'Average Score Improvement', 
+      value: resumeStats.averageScoreImprovement > 0 ? `${resumeStats.averageScoreImprovement}%` : '0%'
+    },
+    { 
+      icon: Award, 
+      label: 'Success Rate', 
+      value: resumeStats.successRate > 0 ? `${resumeStats.successRate}%` : '0%'
+    },
   ];
 
   const features = [
